@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:pro_image_editor/plugins/defer_pointer/defer_pointer.dart';
 import 'package:pro_image_editor/pro_image_editor.dart';
+import 'package:pro_image_editor/widgets/layer_interaction_helper/PillsWidget.dart';
 import '../../mixins/converted_configs.dart';
 import '../../mixins/editor_configs_mixin.dart';
 import 'layer_interaction_border_painter.dart';
@@ -22,6 +23,9 @@ class LayerInteractionHelperWidget extends StatefulWidget
   final Function()? onRemoveLayer;
   final Function(PointerDownEvent)? onScaleRotateDown;
   final Function(PointerUpEvent)? onScaleRotateUp;
+  final Function(DragStartDetails dragStartDetails)? onDragStarted;
+  final Function(DragUpdateDetails dragUpdateDetails)? onDragUpdated;
+  final Function(DragEndDetails dragEndDetails)? onDragEnd;
 
   /// Data for the layer.
   final Layer layerData;
@@ -38,6 +42,9 @@ class LayerInteractionHelperWidget extends StatefulWidget
     this.onRemoveLayer,
     this.onScaleRotateDown,
     this.onScaleRotateUp,
+    this.onDragEnd,
+    this.onDragStarted,
+    this.onDragUpdated,
     this.selected = false,
     this.isInteractive = false,
     this.callbacks = const ProImageEditorCallbacks(),
@@ -132,6 +139,26 @@ class _LayerInteractionHelperWidgetState
                     .layerInteraction.buttonScaleRotateBackground,
               ),
             ),
+
+            // Scale from right
+            const Positioned(
+                top: 0,
+                right: 0,
+                bottom: 0,
+                child: Pill(
+                  width: 20,
+                  height: 30,
+                )),
+
+            // scale from bottom
+            const Positioned(
+                left: 0,
+                bottom: 0,
+                right: 0,
+                child: Pill(
+                  width: 30,
+                  height: 20,
+                )),
           ],
         ),
       ),

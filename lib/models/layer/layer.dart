@@ -23,6 +23,12 @@ class Layer {
   /// A unique identifier for the layer.
   late String id;
 
+  // scaleX
+  late double scaleX;
+
+  // scaleX
+  late double scaleY;
+
   /// Creates a new layer with optional properties.
   ///
   /// The [id] parameter can be used to provide a custom identifier for the layer.
@@ -38,6 +44,8 @@ class Layer {
     double? scale,
     bool? flipX,
     bool? flipY,
+    double? scaleX,
+    double? scaleY
   }) {
     key = GlobalKey();
     // Initialize properties with provided values or defaults.
@@ -47,6 +55,8 @@ class Layer {
     this.scale = scale ?? 1;
     this.flipX = flipX ?? false;
     this.flipY = flipY ?? false;
+    this.scaleX = scaleX ?? 100;
+    this.scaleY = scaleY ?? 100;
   }
 
   factory Layer.fromMap(
@@ -59,6 +69,8 @@ class Layer {
       offset: Offset(map['x'] ?? 0, map['y'] ?? 0),
       rotation: map['rotation'] ?? 0,
       scale: map['scale'] ?? 1,
+      scaleX: map['scaleX'] ?? 100,
+      scaleY: map['scaleY'] ?? 100
     );
 
     switch (map['type']) {
@@ -89,6 +101,8 @@ class Layer {
       'flipX': flipX,
       'flipY': flipY,
       'type': 'default',
+      'scaleX': scaleX,
+      'scaleY' : scaleY
     };
   }
 }

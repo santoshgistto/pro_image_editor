@@ -47,6 +47,10 @@ class LayerWidget extends StatefulWidget with SimpleConfigsAccess {
   final Function(PointerDownEvent, Size)? onScaleRotateDown;
   final Function(PointerUpEvent)? onScaleRotateUp;
 
+  final Function(DragStartDetails dragStartDetails)? onDragStarted;
+  final Function(DragUpdateDetails dragUpdateDetails)? onDragUpdated;
+  final Function(DragEndDetails dragEndDetails)? onDragEnd;
+
   /// Controls high-performance for free-style drawing.
   final bool highPerformanceMode;
 
@@ -79,6 +83,9 @@ class LayerWidget extends StatefulWidget with SimpleConfigsAccess {
     this.selected = false,
     this.isInteractive = false,
     this.callbacks = const ProImageEditorCallbacks(),
+     this.onDragEnd,
+     this.onDragStarted,
+     this.onDragUpdated,
   });
 
   @override
@@ -226,10 +233,12 @@ class _LayerWidgetState extends State<LayerWidget>
               onEditLayer: widget.onEditTap,
               isInteractive: widget.isInteractive,
               onScaleRotateDown: (details) {
-                widget.onScaleRotateDown
-                    ?.call(details, context.size ?? Size.zero);
+                widget.onScaleRotateDown?.call(details, context.size ?? Size.zero);
               },
               onScaleRotateUp: widget.onScaleRotateUp,
+              onDragEnd: widget.onDragEnd,
+              onDragStarted: widget.onDragStarted,
+              onDragUpdated: widget.onDragUpdated,
               onRemoveLayer: widget.onRemoveTap,
               child: MouseRegion(
                 hitTestBehavior: HitTestBehavior.translucent,
@@ -307,6 +316,7 @@ class _LayerWidgetState extends State<LayerWidget>
   /// Build the text widget
   Widget _buildText() {
     var fontSize = textEditorConfigs.initFontSize * _layer.scale;
+    print("_buildText ${fontSize}");
     var layer = _layer as TextLayerData;
     var style = TextStyle(
       fontSize: fontSize * layer.fontScale,
